@@ -10,7 +10,7 @@ const FrontendLayout = ({ children }: Readonly<FrontendLayoutProps>) => {
 		<>
 			<Header />
 
-			<main className="mx-auto max-w-7xl px-6 py-3">{children}</main>
+			<main className="mx-auto max-w-7xl px-6 pt-16 pb-2">{children}</main>
 		</>
 	);
 };
