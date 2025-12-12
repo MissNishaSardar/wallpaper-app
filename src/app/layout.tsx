@@ -1,9 +1,9 @@
-import Header from "@/components/Header/Header";
 import ThemeProvider from "@/components/Providers/ThemeProvider";
+import { ReactNode } from "react";
 import "./globals.css";
 
 type RootLayoutProps = {
-	children: React.ReactNode;
+	children: ReactNode;
 };
 
 const RootLayout = ({ children }: Readonly<RootLayoutProps>) => {
@@ -16,9 +16,7 @@ const RootLayout = ({ children }: Readonly<RootLayoutProps>) => {
 					attribute={"class"}
 					defaultTheme="dark"
 					enableSystem={false}>
-					<Header />
-
-					<main className="mx-auto max-w-7xl px-6 py-3">{children}</main>
+					{children}
 				</ThemeProvider>
 			</body>
 		</html>
