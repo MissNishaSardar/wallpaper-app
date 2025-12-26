@@ -6,6 +6,8 @@ export const loginSchema = z.object({
 	rememberMe: z.boolean(),
 });
 
+export type LoginSchemaType = z.infer<typeof loginSchema>;
+
 export const registerSchema = z
 	.object({
 		name: z.string().min(6, "Input a valid Name"),
@@ -18,3 +20,5 @@ export const registerSchema = z
 	.refine(({ password, confirmPassword }) => password === confirmPassword, {
 		error: "Password didn't match",
 	});
+
+export type RegisterSchemaType = z.infer<typeof registerSchema>;
