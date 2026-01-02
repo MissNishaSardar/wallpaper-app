@@ -19,6 +19,7 @@
 		"@radix-ui/react-label": "^2.1.8",
 		"@radix-ui/react-separator": "^1.1.8",
 		"@radix-ui/react-slot": "^1.2.4",
+		"better-auth": "^1.4.10",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"dotenv": "^17.2.3",
@@ -30,7 +31,7 @@
 		"react-hook-form": "^7.69.0",
 		"sharp": "^0.34.5",
 		"tailwind-merge": "^3.4.0",
-		"zod": "^4.2.1"
+		"zod": "^4.3.4"
 	},
 	"devDependencies": {
 		"@tailwindcss/postcss": "^4.1.18",
