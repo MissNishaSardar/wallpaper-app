@@ -25,6 +25,8 @@ const RegisterForm = () => {
 	});
 
 	const registerHandeler = async (registerData: RegisterSchemaType) => {
+		await new Promise<void>((r) => setTimeout(r, 1000));
+
 		console.log(registerData);
 	};
 

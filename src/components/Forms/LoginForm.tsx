@@ -25,6 +25,8 @@ const LoginForm = () => {
 	});
 
 	const loginHandeler = async (loginData: LoginSchemaType) => {
+		await new Promise<void>((r) => setTimeout(r, 1000));
+
 		console.log(loginData);
 	};
 
