@@ -1,18 +1,23 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { registerSchema, RegisterSchemaType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderIcon, UserRoundPlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const RegisterForm = () => {
+	const { push } = useRouter();
+
 	const {
 		handleSubmit,
 		control,
 		formState: { isSubmitting },
+		reset,
 	} = useForm({
 		resolver: zodResolver(registerSchema),
 		defaultValues: {
@@ -24,10 +29,28 @@ const RegisterForm = () => {
 		mode: "all",
 	});
 
-	const registerHandeler = async (registerData: RegisterSchemaType) => {
+	const registerHandeler = async ({
+		name,
+		email,
+		password,
+	}: RegisterSchemaType) => {
+		const { error } = await authClient.signUp.email({
+			name,
+			email,
+			password,
+		});
+
 		await new Promise<void>((r) => setTimeout(r, 1000));
 
-		console.log(registerData);
+		if (error) {
+			console.log(error.message);
+		} else {
+			console.log("Register Successful");
+
+			reset();
+
+			push("/auth");
+		}
 	};
 
 	return (

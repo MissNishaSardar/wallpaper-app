@@ -1,8 +1,10 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { loginSchema, LoginSchemaType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FingerprintIcon, LoaderIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
@@ -10,10 +12,13 @@ import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const LoginForm = () => {
+	const { push } = useRouter();
+
 	const {
 		handleSubmit,
 		control,
 		formState: { isSubmitting },
+		reset,
 	} = useForm({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
@@ -24,10 +29,28 @@ const LoginForm = () => {
 		mode: "all",
 	});
 
-	const loginHandeler = async (loginData: LoginSchemaType) => {
+	const loginHandeler = async ({
+		email,
+		password,
+		rememberMe,
+	}: LoginSchemaType) => {
+		const { error } = await authClient.signIn.email({
+			email,
+			password,
+			rememberMe,
+		});
+
 		await new Promise<void>((r) => setTimeout(r, 1000));
 
-		console.log(loginData);
+		if (error) {
+			console.log(error.message);
+		} else {
+			console.log("Register Successful");
+
+			reset();
+
+			push("/studio");
+		}
 	};
 
 	return (
