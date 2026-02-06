@@ -1,7 +1,7 @@
 import { Button } from "../shadcnui/button";
 
 const LoginDashboardButton = () => {
-	return <Button>Login/Dashboard</Button>;
+	return <Button>Login</Button>;
 };
 
 export default LoginDashboardButton;
