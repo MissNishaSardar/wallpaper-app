@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FingerprintIcon, LoaderIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
@@ -43,9 +44,9 @@ const LoginForm = () => {
 		await new Promise<void>((r) => setTimeout(r, 1000));
 
 		if (error) {
-			console.log(error.message);
+			toast.error(error.message);
 		} else {
-			console.log("Register Successful");
+			toast.success("Login Successful");
 
 			reset();
 
