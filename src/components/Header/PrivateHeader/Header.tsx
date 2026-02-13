@@ -17,7 +17,8 @@ const Header = () => {
 				</Link>
 
 				<nav className="flex items-center gap-4">
-					<Link href={"/"}>Home</Link>
+					<Link href={"/studio"}>Studio</Link>
+					<Link href={"/studio/create"}>Create</Link>
 
 					<LogoutButton />
 

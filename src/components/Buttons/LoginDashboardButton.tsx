@@ -10,7 +10,7 @@ const LoginDashboardButton = () => {
 	if (data) {
 		return (
 			<Button asChild>
-				<Link href={"/studio"}>Dashboard</Link>
+				<Link href={"/studio"}>Studio</Link>
 			</Button>
 		);
 	}
