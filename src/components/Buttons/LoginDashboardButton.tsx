@@ -5,21 +5,13 @@ import Link from "next/link";
 import { Button } from "../shadcnui/button";
 
 const LoginDashboardButton = () => {
-	const { data } = authClient.useSession();
+  const { data } = authClient.useSession();
 
-	if (data) {
-		return (
-			<Button asChild>
-				<Link href={"/studio"}>Studio</Link>
-			</Button>
-		);
-	}
+  if (data) {
+    return <Button render={<Link href={"/studio"}>Studio</Link>}></Button>;
+  }
 
-	return (
-		<Button asChild>
-			<Link href={"/auth"}>Login</Link>
-		</Button>
-	);
+  return <Button render={<Link href={"/auth"}>Login</Link>}></Button>;
 };
 
 export default LoginDashboardButton;

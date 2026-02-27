@@ -21,6 +21,7 @@ import CreateTagForm from "./CreateTagForm";
 
 const CreateWallpaperForm = () => {
   const [isFile, setIsFile] = useState(false);
+  const [inputTags, setInputTags] = useState<string[]>([]);
 
   const frameworks = [
     "Next.js",
@@ -32,13 +33,21 @@ const CreateWallpaperForm = () => {
 
   const anchor = useComboboxAnchor();
 
-  const { openFilePicker, filesContent } = useFilePicker({
+  const { openFilePicker, filesContent, plainFiles } = useFilePicker({
     multiple: false,
     accept: "image/*",
     readAs: "DataURL",
     onFilesSuccessfullySelected: () => setIsFile(true),
     onClear: () => setIsFile(false),
   });
+
+  const handelUpload = () => {
+    console.log("File:");
+    console.log(plainFiles[0]);
+
+    console.log("Tags:");
+    console.log(inputTags);
+  };
 
   return (
     <>
@@ -73,7 +82,8 @@ const CreateWallpaperForm = () => {
           multiple
           autoHighlight
           items={frameworks}
-          defaultValue={[frameworks[0]]}>
+          onValueChange={(v) => setInputTags(v)}
+          value={inputTags}>
           <ComboboxChips
             ref={anchor}
             className="w-full">
@@ -102,7 +112,7 @@ const CreateWallpaperForm = () => {
           </ComboboxContent>
         </Combobox>
 
-        <Button>Upload</Button>
+        <Button onClick={handelUpload}>Upload</Button>
       </CardContent>
 
       <CardFooter className="justify-center gap-1">
