@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Fragment, useState } from "react";
 import { useFilePicker } from "use-file-picker";
+import { Tag } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import {
@@ -19,7 +20,11 @@ import {
 } from "../shadcnui/combobox";
 import CreateTagForm from "./CreateTagForm";
 
-const CreateWallpaperForm = () => {
+type CreateWallpaperFormProps = {
+  wpTags: Tag[];
+};
+
+const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
   const [isFile, setIsFile] = useState(false);
   const [inputTags, setInputTags] = useState<string[]>([]);
 
@@ -32,6 +37,8 @@ const CreateWallpaperForm = () => {
   ] as const;
 
   const anchor = useComboboxAnchor();
+
+  console.log(wpTags);
 
   const { openFilePicker, filesContent, plainFiles } = useFilePicker({
     multiple: false,

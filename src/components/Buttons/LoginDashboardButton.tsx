@@ -2,16 +2,28 @@
 
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { Button } from "../shadcnui/button";
+import { buttonVariants } from "../shadcnui/button";
 
 const LoginDashboardButton = () => {
   const { data } = authClient.useSession();
 
   if (data) {
-    return <Button render={<Link href={"/studio"}>Studio</Link>}></Button>;
+    return (
+      <Link
+        href={"/studio"}
+        className={`${buttonVariants()}`}>
+        Studio
+      </Link>
+    );
   }
 
-  return <Button render={<Link href={"/auth"}>Login</Link>}></Button>;
+  return (
+    <Link
+      href={"/auth"}
+      className={`${buttonVariants()}`}>
+      Login
+    </Link>
+  );
 };
 
 export default LoginDashboardButton;
