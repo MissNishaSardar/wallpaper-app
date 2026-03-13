@@ -1,7 +1,10 @@
 "use client";
 
+import createWallpaper from "@/server/createWallpaper";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { Tag } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
@@ -28,17 +31,9 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
   const [isFile, setIsFile] = useState(false);
   const [inputTags, setInputTags] = useState<string[]>([]);
 
-  const frameworks = [
-    "Next.js",
-    "SvelteKit",
-    "Nuxt.js",
-    "Remix",
-    "Astro",
-  ] as const;
+  const { push } = useRouter();
 
   const anchor = useComboboxAnchor();
-
-  console.log(wpTags);
 
   const { openFilePicker, filesContent, plainFiles } = useFilePicker({
     multiple: false,
@@ -48,12 +43,21 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
     onClear: () => setIsFile(false),
   });
 
-  const handelUpload = () => {
-    console.log("File:");
-    console.log(plainFiles[0]);
+  const handelUpload = async () => {
+    const tagIds = wpTags
+      .filter((tag) => inputTags.includes(tag.slug))
+      .map((tag) => tag.id);
 
-    console.log("Tags:");
-    console.log(inputTags);
+    const { isSuccess, message } = await createWallpaper(plainFiles[0], tagIds);
+
+    await new Promise<void>((r) => setTimeout(r, 1000));
+
+    if (isSuccess) {
+      toast.success(message);
+      push("/studio");
+    } else {
+      toast.error(message);
+    }
   };
 
   return (
@@ -88,7 +92,7 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
         <Combobox
           multiple
           autoHighlight
-          items={frameworks}
+          items={wpTags}
           onValueChange={(v) => setInputTags(v)}
           value={inputTags}>
           <ComboboxChips
@@ -108,11 +112,11 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
           <ComboboxContent anchor={anchor}>
             <ComboboxEmpty>No items found.</ComboboxEmpty>
             <ComboboxList>
-              {(item) => (
+              {(item: Tag) => (
                 <ComboboxItem
-                  key={item}
-                  value={item}>
-                  {item}
+                  key={item.id}
+                  value={item.slug}>
+                  {item.slug}
                 </ComboboxItem>
               )}
             </ComboboxList>

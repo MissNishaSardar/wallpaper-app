@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL("https://placehold.co/**")],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
 };
 
 export default nextConfig;
