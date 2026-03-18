@@ -44,19 +44,26 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
   });
 
   const handelUpload = async () => {
-    const tagIds = wpTags
-      .filter((tag) => inputTags.includes(tag.slug))
-      .map((tag) => tag.id);
+    if (isFile && inputTags.length >= 1) {
+      const tagIds = wpTags
+        .filter((tag) => inputTags.includes(tag.slug))
+        .map((tag) => tag.id);
 
-    const { isSuccess, message } = await createWallpaper(plainFiles[0], tagIds);
+      const { isSuccess, message } = await createWallpaper(
+        plainFiles[0],
+        tagIds,
+      );
 
-    await new Promise<void>((r) => setTimeout(r, 1000));
+      await new Promise<void>((r) => setTimeout(r, 1000));
 
-    if (isSuccess) {
-      toast.success(message);
-      push("/studio");
+      if (isSuccess) {
+        toast.success(message);
+        push("/studio");
+      } else {
+        toast.error(message);
+      }
     } else {
-      toast.error(message);
+      toast.error("Select file and tags.");
     }
   };
 
@@ -123,7 +130,11 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
           </ComboboxContent>
         </Combobox>
 
-        <Button onClick={handelUpload}>Upload</Button>
+        <Button
+          onClick={handelUpload}
+          disabled={!isFile || inputTags.length === 0}>
+          Upload
+        </Button>
       </CardContent>
 
       <CardFooter className="justify-center gap-1">
