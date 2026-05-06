@@ -1,7 +1,13 @@
+import { serverEnv } from "@/lib/env/serverEnv";
 import Image from "next/image";
+import { Wallpaper } from "../../../generated/prisma/client";
 import { Card, CardContent, CardFooter, CardHeader } from "../shadcnui/card";
 
-const WallpaperCard = () => {
+type WallpaperCardProps = {
+  info: Wallpaper;
+};
+
+const WallpaperCard = ({ info }: WallpaperCardProps) => {
   return (
     <Card>
       <CardHeader className="grid-cols-4 content-center">
@@ -14,7 +20,7 @@ const WallpaperCard = () => {
 
       <CardContent>
         <Image
-          src={"https://placehold.co/368x207/png"}
+          src={`${serverEnv.CDN_URL}/${info.image}`}
           alt=""
           className="h-auto w-auto object-contain"
           height={360}

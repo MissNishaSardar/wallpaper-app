@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 const page = async () => {
   const allWallpapers = await prisma.wallpaper.findMany();
 
-  console.log(allWallpapers);
-
   return (
     <section className="grid grid-cols-3 gap-4">
-      <WallpaperCard />
-      <WallpaperCard />
-      <WallpaperCard />
-      <WallpaperCard />
+      {allWallpapers.map((item) => (
+        <WallpaperCard
+          key={item.id}
+          info={item}
+        />
+      ))}
     </section>
   );
 };

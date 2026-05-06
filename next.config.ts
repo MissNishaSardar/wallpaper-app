@@ -5,7 +5,10 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   typedRoutes: true,
   images: {
-    remotePatterns: [new URL("https://placehold.co/**")],
+    remotePatterns: [
+      new URL("https://placehold.co/**"),
+      new URL("http://127.0.0.1/**"),
+    ],
   },
   experimental: {
     serverActions: {
