@@ -111,7 +111,7 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
                   {values.map((value: string) => (
                     <ComboboxChip key={value}>{value}</ComboboxChip>
                   ))}
-                  <ComboboxChipsInput />
+                  <ComboboxChipsInput placeholder="Enter a tag name" />
                 </Fragment>
               )}
             </ComboboxValue>
