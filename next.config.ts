@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   images: {
     remotePatterns: [
-      // {
-      //   protocol: "https",
-      //   hostname: "placehold.co",
-      //   pathname: "/**",
-      // },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+        pathname: "/**",
+      },
     ],
   },
   experimental: {

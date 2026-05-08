@@ -1,7 +1,13 @@
 import { serverEnv } from "@/lib/env/serverEnv";
+import { formatDistanceToNow } from "date-fns";
+import { DownloadIcon } from "lucide-react";
+import { Route } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { WallpaperGetPayload } from "../../../generated/prisma/models";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
+import { Badge } from "../shadcnui/badge";
+import { Button } from "../shadcnui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "../shadcnui/card";
 
 type WallpaperCardProps = {
@@ -11,6 +17,11 @@ type WallpaperCardProps = {
         select: {
           name: true;
           image: true;
+        };
+      };
+      tags: {
+        select: {
+          slug: true;
         };
       };
     };
@@ -28,7 +39,15 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
               {info.uploadedBy.name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="">{info.uploadedBy.name}</div>
+          <div className="flex flex-col justify-center">
+            <div className="">{info.uploadedBy.name}</div>
+            <div className="text-foreground/50 text-xs">
+              {formatDistanceToNow(info.createdAt, {
+                addSuffix: true,
+                includeSeconds: true,
+              })}
+            </div>
+          </div>
         </div>
         <div className="col-span-1">Delete button</div>
       </CardHeader>
@@ -44,8 +63,25 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
       </CardContent>
 
       <CardFooter className="justify-between">
-        <div className="">Tags</div>
-        <div className="">Download button</div>
+        <div className="space-x-3">
+          {info.tags.map(({ slug }) => (
+            <Badge
+              key={slug}
+              variant="secondary">
+              {slug.toLowerCase()}
+            </Badge>
+          ))}
+        </div>
+
+        <Link
+          href={`${serverEnv.CDN_URL}${info.image}` as Route}
+          className=""
+          target="_blank"
+          download={true}>
+          <Button>
+            <DownloadIcon />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

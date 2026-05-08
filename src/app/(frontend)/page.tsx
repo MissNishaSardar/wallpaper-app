@@ -16,6 +16,14 @@ const page = async () => {
           image: true,
         },
       },
+      tags: {
+        select: {
+          slug: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
