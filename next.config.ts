@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   images: {
     remotePatterns: [
-      new URL("https://placehold.co/**"),
-      new URL("http://127.0.0.1/**"),
+      // {
+      //   protocol: "https",
+      //   hostname: "placehold.co",
+      //   pathname: "/**",
+      // },
     ],
   },
   experimental: {

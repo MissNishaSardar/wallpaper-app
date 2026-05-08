@@ -8,7 +8,16 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
-  const allWallpapers = await prisma.wallpaper.findMany();
+  const allWallpapers = await prisma.wallpaper.findMany({
+    include: {
+      uploadedBy: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
 
   return (
     <section className="grid grid-cols-3 gap-4">
