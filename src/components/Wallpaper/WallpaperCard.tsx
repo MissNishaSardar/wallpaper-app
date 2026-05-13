@@ -5,6 +5,7 @@ import { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { WallpaperGetPayload } from "../../../generated/prisma/models";
+import DeleteButton from "../Buttons/DeleteButton";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
 import { Badge } from "../shadcnui/badge";
 import { Button } from "../shadcnui/button";
@@ -15,6 +16,7 @@ type WallpaperCardProps = {
     include: {
       uploadedBy: {
         select: {
+          id: true;
           name: true;
           image: true;
         };
@@ -49,7 +51,13 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
             </div>
           </div>
         </div>
-        <div className="col-span-1">Delete button</div>
+        <div className="col-span-1">
+          <DeleteButton
+            uploaderId={info.uploadedBy.id}
+            walllpaperId={info.id}
+            walllpaperName={info.image}
+          />
+        </div>
       </CardHeader>
 
       <CardContent>

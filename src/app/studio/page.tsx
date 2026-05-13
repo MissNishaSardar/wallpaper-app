@@ -25,6 +25,7 @@ const page = async () => {
     include: {
       uploadedBy: {
         select: {
+          id: true,
           name: true,
           image: true,
         },

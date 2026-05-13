@@ -7,44 +7,42 @@ import { useState } from "react";
 import { Button } from "../shadcnui/button";
 
 const LogoutButton = () => {
-	const [isLoding, setIsLoding] = useState(false);
+  const [isLoding, setIsLoding] = useState(false);
 
-	const { push } = useRouter();
+  const { push } = useRouter();
 
-	const logoutHandeler = async () => {
-		setIsLoding(true);
+  const logoutHandeler = async () => {
+    setIsLoding(true);
 
-		const { error } = await authClient.signOut();
+    const { error } = await authClient.signOut();
 
-		await new Promise<void>((r) => setTimeout(r, 1000));
+    await new Promise<void>((r) => setTimeout(r, 1000));
 
-		if (!error) {
-			console.log("Logout Successful");
+    if (!error) {
+      console.log("Logout Successful");
 
-			push("/auth");
-		}
+      push("/auth");
+    }
 
-		setIsLoding(false);
-	};
+    setIsLoding(false);
+  };
 
-	return (
-		<Button
-			type="button"
-			onClick={logoutHandeler}
-			variant={"destructive"}
-			className="cursor-pointer"
-			disabled={isLoding}>
-			{isLoding ? (
-				<>
-					<Loader2Icon className="animate-spin" /> Logging out
-				</>
-			) : (
-				<>
-					<LogOutIcon /> Logout
-				</>
-			)}
-		</Button>
-	);
+  return (
+    <Button
+      type="button"
+      onClick={logoutHandeler}
+      variant={"destructive"}
+      disabled={isLoding}>
+      {isLoding ?
+        <>
+          <Loader2Icon className="animate-spin" /> Logging out
+        </>
+      : <>
+          <LogOutIcon /> Logout
+        </>
+      }
+    </Button>
+  );
 };
 
 export default LogoutButton;
