@@ -1,4 +1,4 @@
-import { serverEnv } from "@/lib/env/serverEnv";
+import { clientEnv } from "@/lib/env/clientEnv";
 import { formatDistanceToNow } from "date-fns";
 import { DownloadIcon } from "lucide-react";
 import { Route } from "next";
@@ -36,7 +36,9 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
       <CardHeader className="grid-cols-4 content-center">
         <div className="col-span-3 flex items-center gap-4">
           <Avatar>
-            <AvatarImage src={`${serverEnv.CDN_URL}${info.uploadedBy.image}`} />
+            <AvatarImage
+              src={`${clientEnv.NEXT_PUBLIC_CDN_URL}${info.uploadedBy.image}`}
+            />
             <AvatarFallback>
               {info.uploadedBy.name.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -62,7 +64,7 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
 
       <CardContent>
         <Image
-          src={`${serverEnv.CDN_URL}${info.image}`}
+          src={`${clientEnv.NEXT_PUBLIC_CDN_URL}${info.image}`}
           alt=""
           className="h-auto w-auto object-contain"
           height={360}
@@ -82,7 +84,7 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
         </div>
 
         <Link
-          href={`${serverEnv.CDN_URL}${info.image}` as Route}
+          href={`${clientEnv.NEXT_PUBLIC_CDN_URL}${info.image}` as Route}
           className=""
           target="_blank"
           download={true}>
