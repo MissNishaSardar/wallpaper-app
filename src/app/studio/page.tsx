@@ -6,8 +6,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Studio Dashboard | Wallpaper App",
-  description: "Studio dashboard page of Wallpaper App",
+  title: "Studio | Wallpaper App",
+  description: "Studio page of Wallpaper App",
 };
 
 const page = async () => {

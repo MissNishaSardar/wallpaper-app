@@ -1,6 +1,7 @@
 "use client";
 
 import createWallpaper from "@/server/createWallpaper";
+import { ImageUpIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
@@ -133,7 +134,7 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
         <Button
           onClick={handelUpload}
           disabled={!isFile || inputTags.length === 0}>
-          Upload
+          <ImageUpIcon /> Upload
         </Button>
       </CardContent>
 
