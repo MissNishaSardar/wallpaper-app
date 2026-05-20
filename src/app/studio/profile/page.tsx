@@ -1,4 +1,5 @@
 import UpdateAvaterForm from "@/components/Forms/UpdateAvaterForm";
+import UpdateNameForm from "@/components/Forms/UpdateNameForm";
 import { Card, CardHeader, CardTitle } from "@/components/shadcnui/card";
 import { auth } from "@/lib/auth";
 import { Metadata } from "next";
@@ -31,6 +32,16 @@ const page = async () => {
         </CardHeader>
 
         <UpdateAvaterForm prvImage={image} />
+      </Card>
+
+      <Card className="w-xs">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl font-semibold">
+            Change Name
+          </CardTitle>
+        </CardHeader>
+
+        <UpdateNameForm prvName={name} />
       </Card>
     </section>
   );

@@ -62,7 +62,7 @@ const UpdateAvaterForm = ({ prvImage }: UpdateAvaterFormProps) => {
                 : "https://placehold.co/256x256/png"
               }
               alt=""
-              className="h-64 w-64 rounded-full object-contain"
+              className="h-64 w-64 rounded-full object-cover"
               height={256}
               width={256}
             />
@@ -73,7 +73,7 @@ const UpdateAvaterForm = ({ prvImage }: UpdateAvaterFormProps) => {
               key={idx}
               src={file.content}
               alt={file.name}
-              className="h-64 w-64 rounded-full object-contain"
+              className="h-64 w-64 rounded-full object-cover"
               height={256}
               width={256}
             />

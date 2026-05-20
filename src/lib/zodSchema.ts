@@ -28,3 +28,9 @@ export const tagSchema = z.object({
 });
 
 export type TagSchemaType = z.infer<typeof tagSchema>;
+
+export const updateNameSchema = z.object({
+  name: z.string().min(6, "Input a valid Name"),
+});
+
+export type UpdateNameSchemaType = z.infer<typeof updateNameSchema>;
