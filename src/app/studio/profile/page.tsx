@@ -24,25 +24,27 @@ const page = async () => {
 
   return (
     <section className="grid h-[90dvh] place-items-center">
-      <Card className="w-xs">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
-            Change Avater
-          </CardTitle>
-        </CardHeader>
+      <div className="space-y-8">
+        <Card className="w-xs">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-semibold">
+              Change Avater
+            </CardTitle>
+          </CardHeader>
 
-        <UpdateAvaterForm prvImage={image} />
-      </Card>
+          <UpdateAvaterForm prvImage={image} />
+        </Card>
 
-      <Card className="w-xs">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl font-semibold">
-            Change Name
-          </CardTitle>
-        </CardHeader>
+        <Card className="w-xs">
+          <CardHeader>
+            <CardTitle className="text-center text-2xl font-semibold">
+              Change Name
+            </CardTitle>
+          </CardHeader>
 
-        <UpdateNameForm prvName={name} />
-      </Card>
+          <UpdateNameForm prvName={name} />
+        </Card>
+      </div>
     </section>
   );
 };
