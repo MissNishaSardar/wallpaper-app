@@ -30,6 +30,7 @@ type CreateWallpaperFormProps = {
 
 const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
   const [isFile, setIsFile] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [inputTags, setInputTags] = useState<string[]>([]);
 
   const { push } = useRouter();
@@ -50,18 +51,30 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
         .filter((tag) => inputTags.includes(tag.slug))
         .map((tag) => tag.id);
 
-      const { isSuccess, message } = await createWallpaper(
-        plainFiles[0],
-        tagIds,
-      );
+      setIsUploading(true);
 
-      await new Promise<void>((r) => setTimeout(r, 1000));
+      try {
+        const { isSuccess, message } = await createWallpaper(
+          plainFiles[0],
+          tagIds,
+        );
 
-      if (isSuccess) {
-        toast.success(message);
-        push("/studio");
-      } else {
-        toast.error(message);
+        await new Promise<void>((r) => setTimeout(r, 1000));
+
+        if (isSuccess) {
+          toast.success(message);
+          push("/studio");
+        } else {
+          toast.error(message);
+        }
+      } catch (error) {
+        toast.error(
+          error instanceof Error ?
+            error.message
+          : "Something went wrong! Try again",
+        );
+      } finally {
+        setIsUploading(false);
       }
     } else {
       toast.error("Select file and tags.");
@@ -133,7 +146,7 @@ const CreateWallpaperForm = ({ wpTags }: CreateWallpaperFormProps) => {
 
         <Button
           onClick={handelUpload}
-          disabled={!isFile || inputTags.length === 0}>
+          disabled={!isFile || inputTags.length === 0 || isUploading}>
           <ImageUpIcon /> Upload
         </Button>
       </CardContent>

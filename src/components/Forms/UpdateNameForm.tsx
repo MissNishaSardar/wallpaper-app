@@ -32,16 +32,22 @@ const UpdateNameForm = ({ prvName }: UpdateNameFormProps) => {
   });
 
   const updateNameHandler = async ({ name }: UpdateNameSchemaType) => {
-    const { isSuccess, message } = await updateName(name);
+    try {
+      const { isSuccess, message } = await updateName(name);
 
-    await new Promise<void>((r) => setTimeout(r, 1000));
+      await new Promise<void>((r) => setTimeout(r, 1000));
 
-    if (isSuccess) {
-      toast.success(message);
+      if (isSuccess) {
+        toast.success(message);
 
-      refresh();
-    } else {
-      toast.error(message);
+        refresh();
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update name",
+      );
     }
   };
 

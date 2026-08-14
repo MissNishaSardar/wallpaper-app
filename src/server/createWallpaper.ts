@@ -6,22 +6,31 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import sharp from "sharp";
+import { rm } from "node:fs/promises";
 
 const createWallpaper = async (wpFile: File, wpTags: string[]) => {
+  let session: Awaited<ReturnType<typeof auth.api.getSession>> = null;
+
   try {
-    const session = await auth.api.getSession({
+    session = await auth.api.getSession({
       headers: await headers(),
     });
+  } catch (error) {
+    console.log(error);
+  }
 
-    if (!session) {
-      redirect("/auth");
-    }
+  if (!session) {
+    redirect("/auth");
+  }
 
-    const wpUserId = session.user.id;
+  const wpUserId = session.user.id;
 
+  let imgName = "";
+
+  try {
     const fileArrayBuffer = await wpFile.arrayBuffer();
 
-    const imgName = `${crypto.randomUUID()}.jpeg`;
+    imgName = `${crypto.randomUUID()}.jpeg`;
 
     await sharp(fileArrayBuffer)
       .resize({
@@ -53,6 +62,10 @@ const createWallpaper = async (wpFile: File, wpTags: string[]) => {
     };
   } catch (error) {
     console.log(error);
+
+    if (imgName) {
+      await rm(`public/${imgName}`, { force: true }).catch(() => undefined);
+    }
 
     return {
       isSuccess: false,

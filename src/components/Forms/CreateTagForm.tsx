@@ -35,18 +35,26 @@ const CreateTagForm = () => {
   });
 
   const tagHandeler = async ({ slug }: TagSchemaType) => {
-    const { isSuccess, message } = await createTag(slug);
+    try {
+      const { isSuccess, message } = await createTag(slug);
 
-    await new Promise<void>((r) => setTimeout(r, 1000));
+      await new Promise<void>((r) => setTimeout(r, 1000));
 
-    if (isSuccess) {
-      toast.success(message);
+      if (isSuccess) {
+        toast.success(message);
 
-      setDialogOpen(false);
+        setDialogOpen(false);
 
-      refresh();
-    } else {
-      toast.error(message);
+        refresh();
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ?
+          error.message
+        : "Something went wrong! Try again",
+      );
     }
   };
 

@@ -18,7 +18,8 @@ export const registerSchema = z
       .min(8, "Confirm Password must be 8 charecters long"),
   })
   .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    error: "Password didn't match",
+    message: "Password didn't match",
+    path: ["confirmPassword"],
   });
 
 export type RegisterSchemaType = z.infer<typeof registerSchema>;
