@@ -1,19 +1,59 @@
+import WallpaperCard from "@/components/Wallpaper/WallpaperCard";
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/database/dbClient";
 import { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-	title: "Studio Dashboard | Wallpaper App",
-	description: "Studio dashboard page of Wallpaper App",
+  title: "Studio | Wallpaper App",
+  description: "Studio page of Wallpaper App",
 };
 
-const page = () => {
-	return (
-		<section className="grid h-[90dvh] place-items-center">
-			<div className="space-y-2 text-center">
-				<h1 className="text-5xl font-semibold">Nextjs Starter Frontend</h1>
-				<h2 className="text-3xl">Production grade Next.js starter template</h2>
-			</div>
-		</section>
-	);
+const page = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
+  const wpUserId = session.user.id;
+
+  const userWallpapers = await prisma.wallpaper.findMany({
+    include: {
+      uploadedBy: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      tags: {
+        select: {
+          slug: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    where: {
+      userId: wpUserId,
+    },
+  });
+
+  return (
+    <section className="grid grid-cols-3 gap-4">
+      {userWallpapers.map((item) => (
+        <WallpaperCard
+          key={item.id}
+          info={item}
+        />
+      ))}
+    </section>
+  );
 };
 
 export default page;
