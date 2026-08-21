@@ -20,11 +20,15 @@ const LogoutButton = () => {
 
       await new Promise<void>((r) => setTimeout(r, 1000));
 
-      if (!error) {
-        console.log("Logout Successful");
+      if (error) {
+        toast.error(error.message || "Something went wrong! Try again");
 
-        push("/auth");
+        return;
       }
+
+      console.log("Logout Successful");
+
+      push("/auth");
     } catch (error) {
       console.error(error);
 

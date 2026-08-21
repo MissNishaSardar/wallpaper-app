@@ -26,6 +26,7 @@ const updateAvater = async (avatarFile: File) => {
   const prvAvatarFile = session.user.image;
 
   let avatarName = "";
+  let avatarUpdated = false;
 
   try {
     const fileArrayBuffer = await avatarFile.arrayBuffer();
@@ -51,13 +52,21 @@ const updateAvater = async (avatarFile: File) => {
       headers: await headers(),
     });
 
+    avatarUpdated = true;
+
     revalidatePath("/studio/profile");
 
     if (prvAvatarFile) {
       const publicDir = path.join(process.cwd(), "public");
       const oldAvatarPath = path.resolve(publicDir, prvAvatarFile);
+      const relative = path.relative(publicDir, oldAvatarPath);
 
-      if (oldAvatarPath.startsWith(publicDir)) {
+      if (
+        relative &&
+        !path.isAbsolute(relative) &&
+        !relative.startsWith(`..${path.sep}`) &&
+        relative !== ".."
+      ) {
         await rm(oldAvatarPath, { force: true }).catch(() => undefined);
       }
     }
@@ -69,7 +78,7 @@ const updateAvater = async (avatarFile: File) => {
   } catch (error) {
     console.log(error);
 
-    if (avatarName) {
+    if (!avatarUpdated && avatarName) {
       await rm(`public/${avatarName}`, { force: true }).catch(() => undefined);
     }
 

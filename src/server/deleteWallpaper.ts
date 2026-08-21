@@ -36,21 +36,11 @@ const deleteWallpaper = async (wpId: string) => {
   }
 
   try {
-    await rm(`public/${wallpaper.image}`);
-
     await prisma.wallpaper.delete({
       where: {
         id: wpId,
       },
     });
-
-    revalidatePath("/studio");
-    revalidatePath("/");
-
-    return {
-      isSuccess: true,
-      message: "wallpaper deleted successfuly",
-    };
   } catch (error) {
     console.log(error);
 
@@ -59,6 +49,20 @@ const deleteWallpaper = async (wpId: string) => {
       message: "Something went wrong! Try again",
     };
   }
+
+  try {
+    await rm(`public/${wallpaper.image}`);
+  } catch (error) {
+    console.log(error);
+  }
+
+  revalidatePath("/studio");
+  revalidatePath("/");
+
+  return {
+    isSuccess: true,
+    message: "wallpaper deleted successfuly",
+  };
 };
 
 export default deleteWallpaper;

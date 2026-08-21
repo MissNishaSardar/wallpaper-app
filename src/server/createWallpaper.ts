@@ -26,6 +26,7 @@ const createWallpaper = async (wpFile: File, wpTags: string[]) => {
   const wpUserId = session.user.id;
 
   let imgName = "";
+  let wallpaperCreated = false;
 
   try {
     const fileArrayBuffer = await wpFile.arrayBuffer();
@@ -54,6 +55,8 @@ const createWallpaper = async (wpFile: File, wpTags: string[]) => {
       },
     });
 
+    wallpaperCreated = true;
+
     revalidatePath("/");
 
     return {
@@ -63,7 +66,7 @@ const createWallpaper = async (wpFile: File, wpTags: string[]) => {
   } catch (error) {
     console.log(error);
 
-    if (imgName) {
+    if (!wallpaperCreated && imgName) {
       await rm(`public/${imgName}`, { force: true }).catch(() => undefined);
     }
 

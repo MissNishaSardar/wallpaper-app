@@ -7,15 +7,15 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const createTag = async (slug: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
   try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-
-    if (!session) {
-      redirect("/auth");
-    }
-
     await prisma.tag.create({
       data: {
         slug,
