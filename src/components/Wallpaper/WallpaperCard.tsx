@@ -57,7 +57,6 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
           <DeleteButton
             uploaderId={info.uploadedBy.id}
             walllpaperId={info.id}
-            walllpaperName={info.image}
           />
         </div>
       </CardHeader>
@@ -87,6 +86,7 @@ const WallpaperCard = ({ info }: WallpaperCardProps) => {
           href={`${clientEnv.NEXT_PUBLIC_CDN_URL}${info.image}` as Route}
           className=""
           target="_blank"
+          rel="noopener noreferrer"
           download={true}>
           <Button>
             <DownloadIcon />

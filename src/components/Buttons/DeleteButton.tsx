@@ -11,14 +11,9 @@ import { Button } from "../shadcnui/button";
 type DeleteButtonProps = {
   uploaderId: string;
   walllpaperId: string;
-  walllpaperName: string;
 };
 
-const DeleteButton = ({
-  uploaderId,
-  walllpaperId,
-  walllpaperName,
-}: DeleteButtonProps) => {
+const DeleteButton = ({ uploaderId, walllpaperId }: DeleteButtonProps) => {
   const [isLoding, setIsLoding] = useState(false);
 
   const { refresh } = useRouter();
@@ -34,22 +29,27 @@ const DeleteButton = ({
   const handleDelete = async () => {
     setIsLoding(true);
 
-    const { isSuccess, message } = await deleteWallpaper(
-      walllpaperId,
-      walllpaperName,
-    );
+    try {
+      const { isSuccess, message } = await deleteWallpaper(walllpaperId);
 
-    await new Promise<void>((r) => setTimeout(r, 1000));
+      await new Promise<void>((r) => setTimeout(r, 1000));
 
-    if (isSuccess) {
-      toast.success(message);
+      if (isSuccess) {
+        toast.success(message);
 
-      refresh();
-    } else {
-      toast.error(message);
+        refresh();
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ?
+          error.message
+        : "Something went wrong! Try again",
+      );
+    } finally {
+      setIsLoding(false);
     }
-
-    setIsLoding(false);
   };
 
   return (

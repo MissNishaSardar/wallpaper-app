@@ -30,21 +30,33 @@ const UpdateAvaterForm = ({ prvImage }: UpdateAvaterFormProps) => {
   });
 
   const handleUpdate = async () => {
-    setIsLoding(true);
-
-    const { isSuccess, message } = await updateAvater(plainFiles[0], prvImage);
-
-    // await new Promise<void>((r) => setTimeout(r, 1000));
-
-    if (isSuccess) {
-      toast.success(message);
-
-      refresh();
-    } else {
-      toast.error(message);
+    if (isLoding || !isFile) {
+      return;
     }
 
-    setIsLoding(false);
+    setIsLoding(true);
+
+    try {
+      const { isSuccess, message } = await updateAvater(plainFiles[0]);
+
+      // await new Promise<void>((r) => setTimeout(r, 1000));
+
+      if (isSuccess) {
+        toast.success(message);
+
+        refresh();
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ?
+          error.message
+        : "Something went wrong! Try again",
+      );
+    } finally {
+      setIsLoding(false);
+    }
   };
 
   return (
@@ -86,7 +98,7 @@ const UpdateAvaterForm = ({ prvImage }: UpdateAvaterFormProps) => {
           type="button"
           onClick={handleUpdate}
           //   variant={"destructive"}
-          disabled={!isFile}>
+          disabled={!isFile || isLoding}>
           {isLoding ?
             <>
               <Loader2Icon className="animate-spin" /> Uploading..

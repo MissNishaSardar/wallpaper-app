@@ -1,9 +1,20 @@
 "use server";
 
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/database/dbClient";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const createTag = async (slug: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/auth");
+  }
+
   try {
     await prisma.tag.create({
       data: {

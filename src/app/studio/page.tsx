@@ -42,6 +42,7 @@ const page = async () => {
     where: {
       userId: wpUserId,
     },
+    take: 20,
   });
 
   return (
