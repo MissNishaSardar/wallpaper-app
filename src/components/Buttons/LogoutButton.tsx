@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { Loader2Icon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
 
 const LogoutButton = () => {
@@ -14,17 +15,26 @@ const LogoutButton = () => {
   const logoutHandeler = async () => {
     setIsLoding(true);
 
-    const { error } = await authClient.signOut();
+    try {
+      const { error } = await authClient.signOut();
 
-    await new Promise<void>((r) => setTimeout(r, 1000));
+      await new Promise<void>((r) => setTimeout(r, 1000));
 
-    if (!error) {
+      if (error) {
+        toast.error(error.message || "Something went wrong! Try again");
+        return;
+      }
+
       console.log("Logout Successful");
 
       push("/auth");
-    }
+    } catch (error) {
+      console.error(error);
 
-    setIsLoding(false);
+      toast.error("Something went wrong! Try again");
+    } finally {
+      setIsLoding(false);
+    }
   };
 
   return (

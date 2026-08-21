@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { rm } from "node:fs/promises";
+import path from "node:path";
 import sharp from "sharp";
 
 const updateAvater = async (
@@ -12,7 +13,12 @@ const updateAvater = async (
 ) => {
   try {
     if (prvAvatarFile) {
-      await rm(`public/${prvAvatarFile}`);
+      const publicDir = path.join(process.cwd(), "public");
+      const oldAvatarPath = path.resolve(publicDir, prvAvatarFile);
+      const relative = path.relative(publicDir, oldAvatarPath);
+      if (!path.isAbsolute(relative) && !relative.startsWith("..")) {
+        await rm(oldAvatarPath);
+      }
     }
 
     const fileArrayBuffer = await avatarFile.arrayBuffer();
